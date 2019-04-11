@@ -4,12 +4,17 @@
   * Description        : This file provides code for the configuration
   *                      of the USART instances.
   ******************************************************************************
+<<<<<<< HEAD
   ** This notice applies to any and all portions of this file
+=======
+  * This notice applies to any and all portions of this file
+>>>>>>> test
   * that are not between comment pairs USER CODE BEGIN and
   * USER CODE END. Other portions of this file, whether 
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
+<<<<<<< HEAD
   * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
@@ -33,19 +38,61 @@
   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+=======
+  * Copyright (c) 2019 STMicroelectronics International N.V. 
+  * All rights reserved.
+  *
+  * Redistribution and use in source and binary forms, with or without 
+  * modification, are permitted, provided that the following conditions are met:
+  *
+  * 1. Redistribution of source code must retain the above copyright notice, 
+  *    this list of conditions and the following disclaimer.
+  * 2. Redistributions in binary form must reproduce the above copyright notice,
+  *    this list of conditions and the following disclaimer in the documentation
+  *    and/or other materials provided with the distribution.
+  * 3. Neither the name of STMicroelectronics nor the names of other 
+  *    contributors to this software may be used to endorse or promote products 
+  *    derived from this software without specific written permission.
+  * 4. This software, including modifications and/or derivative works of this 
+  *    software, must execute solely and exclusively on microcontroller or
+  *    microprocessor devices manufactured by or for STMicroelectronics.
+  * 5. Redistribution and use of this software other than as permitted under 
+  *    this license is void and will automatically terminate your rights under 
+  *    this license. 
+  *
+  * THIS SOFTWARE IS PROVIDED BY STMICROELECTRONICS AND CONTRIBUTORS "AS IS" 
+  * AND ANY EXPRESS, IMPLIED OR STATUTORY WARRANTIES, INCLUDING, BUT NOT 
+  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+  * PARTICULAR PURPOSE AND NON-INFRINGEMENT OF THIRD PARTY INTELLECTUAL PROPERTY
+  * RIGHTS ARE DISCLAIMED TO THE FULLEST EXTENT PERMITTED BY LAW. IN NO EVENT 
+  * SHALL STMICROELECTRONICS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
+  * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+>>>>>>> test
   *
   ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-
 /* USER CODE BEGIN 0 */
 #include "string.h"
+<<<<<<< HEAD
 USART_RECEIVERTYPE Usart2Type; //pcb表示485_2 与树莓派通讯
 USART_RECEIVERTYPE Usart3Type; // PCB标识 485 与门控制通讯
 uint8_t photo[3] = {0x5a,0x01,0xAF};//发�?�信息给树莓派提示拍�?
 const uint8_t control[3] = {0x6a,0x01,0xAF}; //后台发�?�信息给�?
+=======
+#include "rtthread.h"
+USART_RECEIVERTYPE Usart2Type; //pcb表示485_2 与树莓派通讯
+USART_RECEIVERTYPE Usart3Type; // PCB标识 485 与门控制通讯
+uint8_t photo[3] = {0x5a,0x01,0xAF};//发�?�信息给树莓派提示拍�??
+const uint8_t control[3] = {0x6a,0x01,0xAF}; //后台发�?�信息给�??
+>>>>>>> test
 uint8_t stop_flag = 0;
 uint8_t refuse_flag = 0;
 /* USER CODE END 0 */
@@ -221,7 +268,11 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 
     __HAL_LINKDMA(uartHandle,hdmatx,hdma_usart3_tx);
 
+<<<<<<< HEAD
     /* USART3 interrupt Init */
+=======
+    /* USART3 interrupt Init */  
+>>>>>>> test
     HAL_NVIC_SetPriority(USART3_4_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(USART3_4_IRQn);
   /* USER CODE BEGIN USART3_MspInit 1 */
@@ -293,22 +344,38 @@ PUTCHAR_PTOTOTYPE
 {
   return ch;
 }
+<<<<<<< HEAD
 /*串口2发�?�函�?*/
+=======
+/*串口2发�?�函�??*/
+>>>>>>> test
 void Usart2SendData_DMA(uint8_t *pdata,uint16_t Length)
 {
   while(Usart2Type.dmaSend_flag == USART_DMA_SENDING);
   Usart2Type.dmaSend_flag = USART_DMA_SENDING;
+<<<<<<< HEAD
   HAL_GPIO_WritePin(RW2_485_GPIO_Port,RW2_485_Pin,GPIO_PIN_SET);//拉高�?
+=======
+  HAL_GPIO_WritePin(RW2_485_GPIO_Port,RW2_485_Pin,GPIO_PIN_SET);//拉高�??
+>>>>>>> test
   HAL_UART_Transmit(&huart2,pdata,Length,0x1000);
   HAL_GPIO_WritePin(RW2_485_GPIO_Port,RW2_485_Pin,GPIO_PIN_RESET);//拉低接收
   Usart2Type.dmaSend_flag = USART_DMA_SENDOVER;
 }
+<<<<<<< HEAD
 /*串口3发�?�函�?*/
+=======
+/*串口3发�?�函�??*/
+>>>>>>> test
 void Usart3SendData_DMA(uint8_t *pdata,uint16_t Length)
 {
   while(Usart3Type.dmaSend_flag == USART_DMA_SENDING);
   Usart3Type.dmaSend_flag = USART_DMA_SENDING;
+<<<<<<< HEAD
   HAL_GPIO_WritePin(RW_485_GPIO_Port,RW_485_Pin,GPIO_PIN_SET);//拉高�?
+=======
+  HAL_GPIO_WritePin(RW_485_GPIO_Port,RW_485_Pin,GPIO_PIN_SET);//拉高�??
+>>>>>>> test
   HAL_UART_Transmit(&huart3,pdata,Length,0x1000);
   HAL_GPIO_WritePin(RW_485_GPIO_Port,RW_485_Pin,GPIO_PIN_RESET);//拉低接收
   Usart3Type.dmaSend_flag = USART_DMA_SENDOVER;
@@ -347,7 +414,11 @@ if(Usart2Type.receive_flag == 1)
           HAL_Delay(200);
           HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_SET);
         break;
+<<<<<<< HEAD
       case 0x02: //树莓派验证失�?
+=======
+      case 0x02: //树莓派验证失�??
+>>>>>>> test
         refuse_flag =1 ;
         break;
       default:

@@ -45,6 +45,10 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+<<<<<<< HEAD
+=======
+#include "app_rtthread.h"
+>>>>>>> test
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -119,6 +123,10 @@ int main(void)
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   MX_TIM3_Init();
+<<<<<<< HEAD
+=======
+  MX_RT_Thread_Init();
+>>>>>>> test
   /* USER CODE BEGIN 2 */
   HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_RESET);
   HAL_Delay(200);
@@ -135,10 +143,18 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+<<<<<<< HEAD
+=======
+    MX_RT_Thread_Process();
+>>>>>>> test
     /* USER CODE BEGIN 3 */
     sense();
     usart2process();
     stop();
+<<<<<<< HEAD
+=======
+    
+>>>>>>> test
 	}
 }
   /* USER CODE END 3 */
@@ -203,7 +219,11 @@ void sense(void)
        if((HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=0)&&(HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin)!=1)&&(cardin_flag ==1))
         {
           cardin_flag = 0;
+<<<<<<< HEAD
           Usart2SendData_DMA(photo,3); //发�?�申�?
+=======
+          Usart2SendData_DMA(photo,3); //发�?�申�??
+>>>>>>> test
           HAL_TIM_Base_Start_IT(&htim3);
         }
   }
@@ -224,7 +244,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   if(htim->Instance == TIM3)
   {
     i++;
+<<<<<<< HEAD
     if((i>8)||(refuse_flag == 1))
+=======
+    if((i>10)||(refuse_flag == 1))
+>>>>>>> test
     {
       i = 0;
       stop_flag = 0;
@@ -253,8 +277,13 @@ void stop(void)
 		HAL_Delay(200);
 		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_SET); 
   }
+<<<<<<< HEAD
 
 }
+=======
+}
+
+>>>>>>> test
 /* USER CODE END 4 */
 
 /**
