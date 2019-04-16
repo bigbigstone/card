@@ -54,7 +54,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#define PROPERTY 30
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -72,6 +72,7 @@
 /* USER CODE BEGIN PV */
 uint8_t cardin_flag = 3;
 uint8_t stop_flag2 = 0;
+
 //uint8_t cardout_flag = 0;
 /* USER CODE END PV */
 
@@ -128,7 +129,7 @@ int main(void)
   HAL_GPIO_WritePin(LED_CTR_GPIO_Port,LED_CTR_Pin,GPIO_PIN_SET);
   __HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);//串口2空闲中断打开
 	HAL_UART_Receive_DMA(&huart2,Usart2Type.usartDMA_rxBUF,RECEIVELEN);//打开串口2的DMA接收
-
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -256,6 +257,23 @@ void stop(void)
 		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_RESET);
 		HAL_Delay(200);
 		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_SET); 
+  }
+}
+
+void rt_thread_init(void)
+{
+  rt_thread_t thread1;
+  rt_thread_t thread2;
+  rt_thread_t thread3;
+  thread1 = rt_thread_create("sense",sense,RT_NULL,128,PROPERTY,8);
+  if(thread1 != RT_NULL)
+  {
+    rt_thread_startup(thread1);
+  }
+  thread2 = rt_thread_create("uart2process",usart2process,RT_NULL,256,PROPERTY-1,8);
+  if(thread2 != RT_NULL)
+  {
+    rt_thread_startup(thread2);
   }
 }
 
