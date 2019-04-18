@@ -49,10 +49,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
-
 /* USER CODE BEGIN 0 */
 #include "string.h"
 #include "rtthread.h"
+
 USART_RECEIVERTYPE Usart2Type; //pcb表示485_2 与树莓派通讯
 USART_RECEIVERTYPE Usart3Type; // PCB标识 485 与门控制通讯
 uint8_t photo[3] = {0x5a,0x01,0xAF};//发�?�信息给树莓派提示拍�??
@@ -264,7 +264,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 
     /* USART2 interrupt Deinit */
     HAL_NVIC_DisableIRQ(USART2_IRQn);
-  /* USER CODE BEGIN USART2_MspDeInit 1 */
+  /* USER CODE BEGIN USART2_MspDeInit 12 */
 
   /* USER CODE END USART2_MspDeInit 1 */
   }

@@ -54,7 +54,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-#define PROPERTY 30
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -70,8 +70,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t cardin_flag = 3;
-uint8_t stop_flag2 = 0;
+// uint8_t cardin_flag = 3;
+// uint8_t stop_flag2 = 0;
 
 //uint8_t cardout_flag = 0;
 /* USER CODE END PV */
@@ -79,8 +79,7 @@ uint8_t stop_flag2 = 0;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-void sense(void);
-void stop(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -129,22 +128,22 @@ int main(void)
   HAL_GPIO_WritePin(LED_CTR_GPIO_Port,LED_CTR_Pin,GPIO_PIN_SET);
   __HAL_UART_ENABLE_IT(&huart2,UART_IT_IDLE);//串口2空闲中断打开
 	HAL_UART_Receive_DMA(&huart2,Usart2Type.usartDMA_rxBUF,RECEIVELEN);//打开串口2的DMA接收
-  
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  // while (1)
+  // {
     /* USER CODE END WHILE */
 
-    MX_RT_Thread_Process();
+    // MX_RT_Thread_Process();
     /* USER CODE BEGIN 3 */
-    sense();
-    usart2process();
-    stop();
+    // sense();
+    // usart2process();
+    // stop();
     
-	}
+	//}
 }
   /* USER CODE END 3 */
 
@@ -169,6 +168,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+  
   /**Initializes the CPU, AHB and APB busses clocks 
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -190,38 +190,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void sense(void)
-{
-  if((HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin) != 1)&&(HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=1))
-  {
-      HAL_Delay(50);
-      if((HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin) != 1)&&(HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=1))
-  {
-    cardin_flag = 1;
-  }
 
-  }
-  if((HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=0)&&(HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin)!=1)&&(cardin_flag ==1))
-  
-  {
-        HAL_Delay(250);
-       if((HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=0)&&(HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin)!=1)&&(cardin_flag ==1))
-        {
-          cardin_flag = 0;
-          Usart2SendData_DMA(photo,3); //发�?�申�??
-          HAL_TIM_Base_Start_IT(&htim3);
-        }
-  }
-  if((HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin) != 0)&&(HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=0))
-  {
-      HAL_Delay(50);
-      if((HAL_GPIO_ReadPin(TOUCH_IN_GPIO_Port,TOUCH_IN_Pin) != 0)&&(HAL_GPIO_ReadPin(TOUCH_OUT_GPIO_Port,TOUCH_OUT_Pin)!=0))
-    {
-    cardin_flag = 0;
-    }
-
- }
-}
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   static uint8_t i=0 ;
@@ -245,37 +214,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     }
    }
 }
-void stop(void)
-{
-  if(stop_flag2 == 1)
-  {
-    stop_flag2 = 0;
-		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_RESET);
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_SET); 
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_RESET);
-		HAL_Delay(200);
-		HAL_GPIO_WritePin(FMQ_GPIO_Port,FMQ_Pin,GPIO_PIN_SET); 
-  }
-}
 
-void rt_thread_init(void)
-{
-  rt_thread_t thread1;
-  rt_thread_t thread2;
-  rt_thread_t thread3;
-  thread1 = rt_thread_create("sense",sense,RT_NULL,128,PROPERTY,8);
-  if(thread1 != RT_NULL)
-  {
-    rt_thread_startup(thread1);
-  }
-  thread2 = rt_thread_create("uart2process",usart2process,RT_NULL,256,PROPERTY-1,8);
-  if(thread2 != RT_NULL)
-  {
-    rt_thread_startup(thread2);
-  }
-}
+
+
 
 /* USER CODE END 4 */
 
